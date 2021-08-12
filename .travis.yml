@@ -1,0 +1,22 @@
+language: android
+dist: trusty
+android:
+  components:
+    # - tools
+    # - platform-tools
+    - build-tools-30.0.3
+    - android-30
+    - extra-google-m2repository
+    - extra-android-m2repository
+  licenses:
+    - 'android-sdk-preview-license-52d11cd2'
+    - 'android-sdk-license-.+'
+    - 'google-gdk-license-.+'
+
+before_script:
+  - echo $TRAVIS_BRANCH
+  - echo $TRAVIS_TAG
+  - yes | sdkmanager "platforms;android-30"
+
+script:
+  - ./gradlew assemble

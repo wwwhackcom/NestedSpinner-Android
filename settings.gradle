@@ -1,0 +1,3 @@
+rootProject.name = "NestedSpinner"
+include ':app'
+include ':NestedSpinner'
