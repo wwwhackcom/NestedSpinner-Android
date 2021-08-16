@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="Themes">
+        <attr name="NestedSpinnerViewStyle" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="NestedSpinnerView">
+        <attr name="popupBackgroundColour" format="color" />
+        <attr name="initExpanded" format="boolean" />
+        <attr name="groupItemHeight" format="dimension" />
+        <attr name="groupBackgroundColour" format="color" />
+        <attr name="groupTextColour" format="color" />
+        <attr name="groupTextSize" format="dimension" />
+        <attr name="subItemHeight" format="dimension" />
+        <attr name="subBackgroundColour" format="color" />
+        <attr name="subTextColour" format="color" />
+        <attr name="subTextSize" format="dimension" />
+    </declare-styleable>
+</resources>

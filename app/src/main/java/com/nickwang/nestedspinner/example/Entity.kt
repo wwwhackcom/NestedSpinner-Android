@@ -1,32 +1,25 @@
 package com.nickwang.nestedspinner.example
 
-import android.graphics.Color
-import com.nickwang.nestedspinner.NestedSpinnerDataSource
-import com.nickwang.nestedspinner.NestedSpinnerUtils
+import com.nickwang.nestedspinner.NestedSpinnerData
 
 /**
  * @author nickwang
  * Created 10/07/21
  */
-data class Entity(var name: String, var data: Any, var backgroundColour: String, var textColour: String) : NestedSpinnerDataSource {
+class Entity : NestedSpinnerData {
 
-    override fun getSubText(): String {
-        return name
-    }
+    //field extension
+    var userInfo: Any? = null
 
-    override fun getGroupBackgroundColour(): Int {
-        return Color.DKGRAY
-    }
+    constructor(name: String) : super(name)
 
-    override fun getGroupFontColour(): Int {
-        return Color.WHITE
-    }
+    constructor(name: String, data: Any) : super(name, data)
 
-    override fun getSubBackgroundColour(): Int {
-        return NestedSpinnerUtils.getColour(backgroundColour, R.color.background_dark)
-    }
+    constructor(name: String, data: Any, backgroundColour: String, textColour: String) : super(
+        name,
+        data,
+        backgroundColour,
+        textColour
+    )
 
-    override fun getSubFontColour(): Int {
-        return NestedSpinnerUtils.getColour(textColour, Color.WHITE)
-    }
 }

@@ -2,9 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rl_sub"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/selector_bg_nested_sub"
-    android:layout_marginBottom="4dp" >
+    android:layout_height="42dp"
+    android:layout_marginBottom="4dp"
+    android:background="@drawable/selector_bg_nested_sub">
 
     <TextView
         android:id="@+id/tv_item"
@@ -13,8 +13,6 @@
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="26dp"
-        android:layout_marginTop="14dp"
-        android:layout_marginBottom="14dp"
         android:textColor="@color/white"
         android:textSize="15sp" />
 

@@ -2,6 +2,7 @@ package com.nickwang.nestedspinner
 
 import android.content.Context
 import android.graphics.drawable.GradientDrawable
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,15 +24,21 @@ abstract class AbstractNestedSpinnerAdapter<SO>(context: Context) :
 
     protected abstract fun getSubText(so: SO): String
     protected abstract fun getGroupBackgroundColour(groupItemIndex: Int): Int
-    protected abstract fun getGroupFontColour(groupItemIndex: Int): Int
+    protected abstract fun getGroupTextColour(groupItemIndex: Int): Int
     protected abstract fun getSubBackgroundColour(so: SO): Int
-    protected abstract fun getSubFontColour(so: SO): Int
+    protected abstract fun getSubTextColour(so: SO): Int
+
+    var style: NestedSpinnerStyle? = null
+        set(value) {
+            field = value
+            setInitExpanded(style?.initExpanded ?: false)
+        }
 
     lateinit var onGroupItemSelected: (groupItemIndex: Int) -> Unit
     lateinit var onSubItemSelected: (groupItemIndex: Int, subItemIndex: Int) -> Unit
-
     private val mContext: Context = context
     private var mDataSource: List<DataSource<String, SO>>? = null
+
 
     fun setDataSource(data: List<DataSource<String, SO>>) {
         mDataSource = data
@@ -77,9 +84,14 @@ abstract class AbstractNestedSpinnerAdapter<SO>(context: Context) :
         (holder as AbstractNestedSpinnerAdapter<*>.GroupItemViewHolder).tvGroupItem.text =
             if (mDataSource != null && mDataSource!!.isNotEmpty()) mDataSource!![groupItemIndex].groupItem else ""
         val backgroundColour = getGroupBackgroundColour(groupItemIndex)
-        setBackgroundColour(holder.rlGroup, backgroundColour)
-        val fontColour = getGroupFontColour(groupItemIndex)
-        holder.tvGroupItem.setTextColor(fontColour)
+        setBackgroundColour(
+            holder.rlGroup,
+            if (backgroundColour != 0) backgroundColour else style?.groupBackgroundColour ?: 0
+        )
+        val textColour = getGroupTextColour(groupItemIndex)
+        holder.tvGroupItem.setTextColor(
+            if (textColour != 0) textColour else style?.groupTextColour ?: 0
+        )
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -94,9 +106,14 @@ abstract class AbstractNestedSpinnerAdapter<SO>(context: Context) :
             holder as AbstractNestedSpinnerAdapter<SO>.SubItemViewHolder
         subItemViewHolder.tvSubItem.text = item
         val backgroundColour = getSubBackgroundColour(getSubItem(groupItemIndex, subItemIndex))
-        setBackgroundColour(subItemViewHolder.rlSub, backgroundColour)
-        val fontColour = getSubFontColour(getSubItem(groupItemIndex, subItemIndex))
-        subItemViewHolder.tvSubItem.setTextColor(fontColour)
+        setBackgroundColour(
+            subItemViewHolder.rlSub,
+            if (backgroundColour != 0) backgroundColour else style?.subBackgroundColour ?: 0
+        )
+        val textColour = getSubTextColour(getSubItem(groupItemIndex, subItemIndex))
+        subItemViewHolder.tvSubItem.setTextColor(
+            if (textColour != 0) textColour else style?.subTextColour ?: 0
+        )
     }
 
     override fun onGroupItemClick(
@@ -141,15 +158,49 @@ abstract class AbstractNestedSpinnerAdapter<SO>(context: Context) :
                 context,
                 if (isInitExpanded()) R.drawable.icon_down_arrow else R.drawable.icon_right_arrow
             )
+            setGroupItemHeight()
+            setTextSize()
+        }
+
+        private fun setGroupItemHeight() {
+            val viewParams = rlGroup.layoutParams
+            viewParams.height = style?.groupItemHeight
+                ?: mContext.resources.getDimensionPixelSize(R.dimen.group_height)
+            rlGroup.layoutParams = viewParams
+        }
+
+        private fun setTextSize() {
+            tvGroupItem.setTextSize(
+                TypedValue.COMPLEX_UNIT_PX,
+                (style?.groupTextSize
+                    ?: mContext.resources.getDimensionPixelSize(R.dimen.group_text_size)).toFloat()
+            )
         }
     }
 
     inner class SubItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var rlSub: RelativeLayout = itemView.findViewById(R.id.rl_sub)
         var tvSubItem: TextView = itemView.findViewById(R.id.tv_item)
+
+        init {
+            setSubItemHeight()
+            setTextSize()
+        }
+
+        private fun setSubItemHeight() {
+            val viewParams = rlSub.layoutParams
+            viewParams.height =
+                style?.subItemHeight ?: mContext.resources.getDimensionPixelSize(R.dimen.sub_height)
+            rlSub.layoutParams = viewParams
+        }
+
+        private fun setTextSize() {
+            tvSubItem.setTextSize(
+                TypedValue.COMPLEX_UNIT_PX,
+                (style?.subTextSize
+                    ?: mContext.resources.getDimensionPixelSize(R.dimen.sub_text_size)).toFloat()
+            )
+        }
     }
 
-    init {
-        setInitExpanded(false)
-    }
 }

@@ -24,9 +24,9 @@ class BaseNestedSpinnerAdapter<T : NestedSpinnerDataSource>(context: Context) :
         return subItem.getGroupBackgroundColour()
     }
 
-    override fun getGroupFontColour(groupItemIndex: Int): Int {
+    override fun getGroupTextColour(groupItemIndex: Int): Int {
         val subItem = getSubItem(groupItemIndex, 0)
-        return subItem.getGroupFontColour()
+        return subItem.getGroupTextColour()
     }
 
 
@@ -35,9 +35,9 @@ class BaseNestedSpinnerAdapter<T : NestedSpinnerDataSource>(context: Context) :
         return subItem.getSubBackgroundColour()
     }
 
-    override fun getSubFontColour(t: T): Int {
+    override fun getSubTextColour(t: T): Int {
         val subItem = t as NestedSpinnerDataSource
-        return subItem.getSubFontColour()
+        return subItem.getSubTextColour()
     }
 
 }

@@ -15,20 +15,17 @@ import java.io.Serializable
  * Created 10/07/21
  */
 class NestedSpinnerView : AppCompatSpinner, OnTouchListener, Serializable {
-    lateinit var mOnItemSelectedListener: (subItem: Any?) -> Unit
-
-    private var mContext: Context
+    lateinit var onItemSelectedListener: (subItem: Any?) -> Unit
     private var mAbstractAdapter: AbstractNestedSpinnerAdapter<*>? = null
     private var mNestedPopupView: NestedSpinnerPopupView? = null
+    private lateinit var mStyle: NestedSpinnerStyle
 
     constructor(context: Context) : super(context) {
-        mContext = context
-        init()
+        init(context, null, R.attr.NestedSpinnerViewStyle)
     }
 
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
-        mContext = context
-        init()
+        init(context, attrs, R.attr.NestedSpinnerViewStyle)
     }
 
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
@@ -36,11 +33,13 @@ class NestedSpinnerView : AppCompatSpinner, OnTouchListener, Serializable {
         attrs,
         defStyleAttr
     ) {
-        mContext = context
-        init()
+        init(context, attrs, defStyleAttr)
     }
 
-    private fun init() {
+    private fun init(context: Context, attrs: AttributeSet?, defStyleAttr: Int) {
+        context.obtainStyledAttributes(attrs, R.styleable.NestedSpinnerView, defStyleAttr, 0).also {
+            mStyle = NestedSpinnerStyle(context, it)
+        }.recycle()
         setOnTouchListener(this)
     }
 
@@ -66,15 +65,16 @@ class NestedSpinnerView : AppCompatSpinner, OnTouchListener, Serializable {
                 if (index >= 0) {
                     setSelection(index)
                     dismissPopup()
-                    mOnItemSelectedListener.invoke(subItem)
+                    onItemSelectedListener.invoke(subItem)
                 }
             }
         }
+        mAbstractAdapter?.style = mStyle
         initAdapter()
     }
 
     private fun showPopup() {
-        mNestedPopupView = NestedSpinnerPopupView(mContext)
+        mNestedPopupView = NestedSpinnerPopupView(context, mStyle)
         mNestedPopupView!!.setAdapter(mAbstractAdapter)
         mNestedPopupView!!.width = width
         val offsetX =
@@ -92,14 +92,14 @@ class NestedSpinnerView : AppCompatSpinner, OnTouchListener, Serializable {
 
     private fun initAdapter() {
         var list = ArrayList<String>()
-        list.add(mContext.getString(R.string.selectText))
+        list.add(context.getString(R.string.selectText))
         val subItems = mAbstractAdapter?.getFlatSubItems()
         if (subItems != null) {
             for (sub in subItems) {
                 list.add(sub)
             }
         }
-        adapter = ArrayAdapter(mContext, android.R.layout.simple_list_item_1, list)
+        adapter = ArrayAdapter(context, android.R.layout.simple_list_item_1, list)
     }
 
     private fun getItemIndex(subItemText: String): Int {

@@ -1,23 +1,24 @@
 package com.nickwang.nestedspinner.example
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.nickwang.nestedspinner.BaseNestedSpinnerAdapter
 import com.nickwang.nestedspinner.ExpandableListAdapter
+import com.nickwang.nestedspinner.NestedSpinnerData
 import com.nickwang.nestedspinner.example.databinding.ActivityMainBinding
 
 /**
  * @author nickwang
- * Created 10/07/21
+ * Created 12/08/21
  */
-class MainActivity : AppCompatActivity() {
+class BasicExampleActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        title = "Basic Usage"
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setupNestedSpinner()
@@ -29,16 +30,8 @@ class MainActivity : AppCompatActivity() {
         nestedSpinner.setNestedAdapter(nestedSpinnerAdapter)
         nestedSpinner.onItemSelectedListener = { subItem ->
             run {
-                if (subItem is Entity) {
-                    Log.d("MainActivity", "onItemSelected subItem: " + subItem.userInfo)
-                    when (subItem.data) {
-                        1 -> startActivity(
-                            Intent(
-                                this@MainActivity,
-                                BasicExampleActivity::class.java
-                            )
-                        )
-                    }
+                if (subItem is NestedSpinnerData) {
+                    Log.d("MainActivity", "onItemSelected subItem: " + subItem.data)
                 }
             }
         }
@@ -47,15 +40,16 @@ class MainActivity : AppCompatActivity() {
     private fun createDataSource(): List<ExpandableListAdapter.DataSource<String, Entity>> {
         val dataTrees = ArrayList<ExpandableListAdapter.DataSource<String, Entity>>()
         var list = ArrayList<Entity>()
-        list.add(Entity("Default Style", 1))
-        list.add(Entity("Custom Attributes", 2))
-        list.add(Entity("Init Expanded", 3))
-        var dt1 = ExpandableListAdapter.DataSource("Basic Usage", list)
+        list.add(Entity("Style1", "Data-1", "#03A9F4", "#FFFFFF"))
+        list.add(Entity("Style2", "Data-2", "#FFBF3E", "#FFFFFF"))
+        list.add(Entity("Style3", "Data-3", "#5CAB00", "#FFFFFF"))
+        var dt1 = ExpandableListAdapter.DataSource("group1", list)
         dataTrees.add(dt1)
         list = ArrayList()
-        list.add(Entity("Delegate Colours", 4))
-        list.add(Entity("Custom Adapter", 5))
-        dt1 = ExpandableListAdapter.DataSource("Customised", list)
+        list.add(Entity("Style1", "Data-1", "#03A9F4", "#FFFFFF"))
+        list.add(Entity("Style2", "Data-2", "#FFBF3E", "#FFFFFF"))
+        list.add(Entity("Style3", "Data-3", "#C36221", "#FFFFFF"))
+        dt1 = ExpandableListAdapter.DataSource("group2", list)
         dataTrees.add(dt1)
         return dataTrees
     }

@@ -1,5 +1,7 @@
 package com.nickwang.nestedspinner
 
+import androidx.annotation.ColorInt
+
 /**
  * @author nickwang
  * Created 10/07/21
@@ -7,9 +9,17 @@ package com.nickwang.nestedspinner
 interface NestedSpinnerDataSource {
 
     fun getSubText(): String
+
+    @ColorInt
     fun getGroupBackgroundColour(): Int
-    fun getGroupFontColour(): Int
+
+    @ColorInt
+    fun getGroupTextColour(): Int
+
+    @ColorInt
     fun getSubBackgroundColour(): Int
-    fun getSubFontColour(): Int
+
+    @ColorInt
+    fun getSubTextColour(): Int
 
 }
