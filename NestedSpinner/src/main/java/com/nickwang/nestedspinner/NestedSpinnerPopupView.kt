@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.GradientDrawable
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
@@ -24,7 +23,7 @@ class NestedSpinnerPopupView(context: Context, style: NestedSpinnerStyle) : Popu
     private val mStyle: NestedSpinnerStyle = style
 
     init {
-        val view: View = LayoutInflater.from(mContext).inflate(R.layout.popup_nested_list, null)
+        val view: View = View.inflate(mContext, R.layout.popup_nested_list, null)
         contentView = view
         width = ViewGroup.LayoutParams.WRAP_CONTENT
         height = ViewGroup.LayoutParams.WRAP_CONTENT
@@ -42,5 +41,4 @@ class NestedSpinnerPopupView(context: Context, style: NestedSpinnerStyle) : Popu
         mAdapter = adapter
         mListView!!.adapter = mAdapter
     }
-
 }

@@ -47,16 +47,24 @@ class MainActivity : AppCompatActivity() {
     private fun createDataSource(): List<ExpandableListAdapter.DataSource<String, Entity>> {
         val dataTrees = ArrayList<ExpandableListAdapter.DataSource<String, Entity>>()
         var list = ArrayList<Entity>()
-        list.add(Entity("Default Style", 1))
-        list.add(Entity("Custom Attributes", 2))
-        list.add(Entity("Init Expanded", 3))
+        list.add(Entity("Default Style", TAG1))
+        list.add(Entity("Custom Attributes", TAG2))
+        list.add(Entity("Init Expanded", TAG3))
         var dt1 = ExpandableListAdapter.DataSource("Basic Usage", list)
         dataTrees.add(dt1)
         list = ArrayList()
-        list.add(Entity("Delegate Colours", 4))
-        list.add(Entity("Custom Adapter", 5))
+        list.add(Entity("Delegate Colours", TAG4))
+        list.add(Entity("Custom Adapter", TAG5))
         dt1 = ExpandableListAdapter.DataSource("Customised", list)
         dataTrees.add(dt1)
         return dataTrees
+    }
+
+    companion object {
+        const val TAG1 = 1
+        const val TAG2 = 2
+        const val TAG3 = 3
+        const val TAG4 = 4
+        const val TAG5 = 5
     }
 }

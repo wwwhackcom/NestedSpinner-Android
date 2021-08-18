@@ -21,5 +21,4 @@ interface NestedSpinnerDataSource {
 
     @ColorInt
     fun getSubTextColour(): Int
-
 }

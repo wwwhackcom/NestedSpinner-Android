@@ -9,11 +9,9 @@ import android.graphics.Color
 open class NestedSpinnerData(
     var name: String,
     var data: Any,
-    var backgroundColour: String,
-    var textColour: String
+    private var backgroundColour: String,
+    private var textColour: String
 ) : NestedSpinnerDataSource {
-
-    constructor(name: String) : this(name, "", "", "")
 
     constructor(name: String, data: Any) : this(name, data, "", "")
 
@@ -36,5 +34,4 @@ open class NestedSpinnerData(
     override fun getSubTextColour(): Int {
         return NestedSpinnerUtils.getColour(textColour, Color.WHITE)
     }
-
 }

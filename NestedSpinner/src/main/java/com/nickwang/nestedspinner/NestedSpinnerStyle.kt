@@ -73,5 +73,4 @@ class NestedSpinnerStyle(context: Context, typedArray: TypedArray) {
                 context.resources.getDimensionPixelSize(R.dimen.sub_text_size)
             )
     }
-
 }

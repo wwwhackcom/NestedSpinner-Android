@@ -8,10 +8,8 @@ import com.nickwang.nestedspinner.NestedSpinnerData
  */
 class Entity : NestedSpinnerData {
 
-    //field extension
+    // field extension
     var userInfo: Any? = null
-
-    constructor(name: String) : super(name)
 
     constructor(name: String, data: Any) : super(name, data)
 
@@ -21,5 +19,4 @@ class Entity : NestedSpinnerData {
         backgroundColour,
         textColour
     )
-
 }

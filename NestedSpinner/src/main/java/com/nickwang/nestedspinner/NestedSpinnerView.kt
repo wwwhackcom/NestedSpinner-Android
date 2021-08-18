@@ -78,10 +78,10 @@ class NestedSpinnerView : AppCompatSpinner, OnTouchListener, Serializable {
         mNestedPopupView!!.setAdapter(mAbstractAdapter)
         mNestedPopupView!!.width = width
         val offsetX =
-            TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 9f, resources.displayMetrics)
+            TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, OFFSET_X, resources.displayMetrics)
                 .toInt()
         val offsetY =
-            TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 6f, resources.displayMetrics)
+            TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, OFFSET_Y, resources.displayMetrics)
                 .toInt()
         mNestedPopupView!!.showAsDropDown(this, offsetX, offsetY)
     }
@@ -91,7 +91,7 @@ class NestedSpinnerView : AppCompatSpinner, OnTouchListener, Serializable {
     }
 
     private fun initAdapter() {
-        var list = ArrayList<String>()
+        val list = ArrayList<String>()
         list.add(context.getString(R.string.selectText))
         val subItems = mAbstractAdapter?.getFlatSubItems()
         if (subItems != null) {
@@ -104,16 +104,19 @@ class NestedSpinnerView : AppCompatSpinner, OnTouchListener, Serializable {
 
     private fun getItemIndex(subItemText: String): Int {
         val adapter = adapter ?: return -1
+        var index = -1
         for (i in 0 until adapter.count) {
             val o = adapter.getItem(i) as String
             if (o == subItemText) {
-                return i
+                index = i
             }
         }
-        return -1
+        return index
     }
 
     companion object {
         private const val serialVersionUID = -1802140099958720779L
+        private const val OFFSET_X = 9f
+        private const val OFFSET_Y = 6f
     }
 }

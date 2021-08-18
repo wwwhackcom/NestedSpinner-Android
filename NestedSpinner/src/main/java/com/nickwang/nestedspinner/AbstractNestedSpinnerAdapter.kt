@@ -19,8 +19,10 @@ import androidx.recyclerview.widget.RecyclerView
  * @author nickwang
  * Created 10/07/21
  */
+@Suppress("TooManyFunctions")
 abstract class AbstractNestedSpinnerAdapter<SO>(context: Context) :
-    ExpandableListAdapter<AbstractNestedSpinnerAdapter<SO>.GroupItemViewHolder, AbstractNestedSpinnerAdapter<SO>.SubItemViewHolder>() {
+    ExpandableListAdapter<AbstractNestedSpinnerAdapter<SO>.GroupItemViewHolder,
+            AbstractNestedSpinnerAdapter<SO>.SubItemViewHolder>() {
 
     protected abstract fun getSubText(so: SO): String
     protected abstract fun getGroupBackgroundColour(groupItemIndex: Int): Int
@@ -39,7 +41,6 @@ abstract class AbstractNestedSpinnerAdapter<SO>(context: Context) :
     private val mContext: Context = context
     private var mDataSource: List<DataSource<String, SO>>? = null
 
-
     fun setDataSource(data: List<DataSource<String, SO>>) {
         mDataSource = data
         notifyNewData(mDataSource!!)
@@ -57,7 +58,7 @@ abstract class AbstractNestedSpinnerAdapter<SO>(context: Context) :
     fun getFlatSubItems(): List<String>? {
         if (mDataSource == null) return null
 
-        var flatSubItems = ArrayList<String>()
+        val flatSubItems = ArrayList<String>()
         mDataSource!!.forEach { groupItem ->
             run {
                 groupItem.subItems.forEach {
@@ -143,7 +144,7 @@ abstract class AbstractNestedSpinnerAdapter<SO>(context: Context) :
         RecyclerView.ViewHolder(itemView) {
         var rlGroup: RelativeLayout = itemView.findViewById(R.id.rl_group)
         var tvGroupItem: TextView = itemView.findViewById(R.id.tv_group)
-        var ivArrow: ImageView = itemView.findViewById(R.id.iv_arrow)
+        private var ivArrow: ImageView = itemView.findViewById(R.id.iv_arrow)
         fun setArrowImage(context: Context, @DrawableRes id: Int) {
             val drawable = ContextCompat.getDrawable(context, id)
             drawable?.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
@@ -202,5 +203,4 @@ abstract class AbstractNestedSpinnerAdapter<SO>(context: Context) :
             )
         }
     }
-
 }
